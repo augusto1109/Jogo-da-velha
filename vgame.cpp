@@ -8,6 +8,7 @@
 #else
 #include <cstdlib>
 #endif
+
 using namespace std;
 
 char board[3][3]; // Tabuleiro 3x3
@@ -59,97 +60,115 @@ void switchPlayer() {
 }
 
 int main() {
-  ////// MENUS //////
-  int escolhajogo;
-  bool executando = true;
+    ////// MENUS ////// 
+    int escolhajogo;
+    bool executando = true;
 
-  while (executando) {
-    cout << "================" << endl;
-    cout << "Escolha o jogo: " << endl;
-    cout << "1. JOGO DA VELHA" << endl;
-    cout << "2. Jogo 2" << endl;
-    cout << "3. Sair" << endl;
-    cout << "================" << endl;
+    while (executando) {
+        cout << "================" << endl;
+        cout << "Escolha o jogo: " << endl;
+        cout << "1. JOGO DA VELHA" << endl;
+        cout << "2. Jogo 2" << endl; // Você pode definir o que fazer para "Jogo 2"
+        cout << "3. Sair" << endl;
+        cout << "================" << endl;
 
-    while (true) {
-      cout << "Digite sua escolha: ";
-      cin >> escolhajogo;
+        while (true) {
+            cout << "Digite sua escolha: ";
+            cin >> escolhajogo;
 
-      if (cin.fail() || escolhajogo < 1 || escolhajogo > 3) {
-        cout << "Opção inválida! Tente novamente." << endl;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-      } else {
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        break;
-      }
+            if (cin.fail() || escolhajogo < 1 || escolhajogo > 3) {
+                cout << "Opção inválida! Tente novamente." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            } else {
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                break;
+            }
+        }
+
+        switch (escolhajogo) {
+            case 1: {
+                cout << endl;
+                cout << "* JOGO DA VELHA *" << endl;
+                int escolhamodo;
+
+                cout << "=======================" << endl;
+                cout << "Escolha o modo de jogo: " << endl;
+                cout << "1. PvP" << endl;
+                cout << "2. PvBot" << endl; // Este modo ainda não foi implementado
+                cout << "3. BotvBot" << endl; // Este modo ainda não foi implementado
+                cout << "4. Sair" << endl;
+                cout << "=====================" << endl;
+
+                while (true) {
+                    cout << "Digite sua escolha: ";
+                    cin >> escolhamodo;
+
+                    if (cin.fail() || escolhamodo < 1 || escolhamodo > 4) {
+                        cout << "Opção inválida! Tente novamente." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    } else {
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        break;
+                    }
+                }
+
+                switch (escolhamodo) {
+                    case 1: {
+                        cout << endl;
+                        cout << "* Escolheu PvP *\n" << endl;
+
+                        ////// INICIO DO JOGO ////// 
+                        initializeBoard();
+                        currentPlayer = 'X';
+                        int row, col;
+
+                        while (true) {
+                            printBoard();
+                            cout << "Jogador " << currentPlayer << ", escolha a linha e a coluna (0-2): ";
+                            cin >> row >> col;
+
+                            if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
+                                cout << "Jogada inválida, tente novamente." << endl;
+                                continue;
+                            }
+
+                            board[row][col] = currentPlayer;
+
+                            if (isWinner(currentPlayer)) {
+                                printBoard();
+                                cout << "Parabéns! Jogador " << currentPlayer << " venceu!" << endl;
+                                break;
+                            }
+
+                            if (isDraw()) {
+                                printBoard();
+                                cout << "Empate!" << endl;
+                                break;
+                            }
+
+                            switchPlayer();
+                        }
+                        break; // Adiciona um break aqui para sair do switch
+                    }
+                    case 2:
+                    case 3:
+                        cout << "Modo ainda não implementado!" << endl;
+                        break;
+                    case 4:
+                        executando = false;
+                        break;
+                }
+                break; // Adiciona um break aqui para sair do switch principal
+            }
+            case 2:
+          
+            case 3:
+                executando = false;
+                break;
+        }
     }
-
-    switch (escolhajogo) {
-    case 1: {
-      cout << endl;
-      cout << "* JOGO DA VELHA *" << endl;
-      int escolhamodo;
-
-      cout << "=======================" << endl;
-      cout << "Escolha o modo de jogo: " << endl;
-      cout << "1. PvP" << endl;
-      cout << "2. PvBot" << endl;
-      cout << "3. BotvBot" << endl;
-      cout << "4. Sair" << endl;
-      cout << "=====================" << endl;
-
-      while (true) {
-        cout << "Digite sua escolha: ";
-        cin >> escolhamodo;
-
-        if (cin.fail() || escolhamodo < 1 || escolhamodo > 4) {
-          cout << "Opção inválida! Tente novamente." << endl;
-          cin.clear();
-          cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        } else {
-          cin.ignore(numeric_limits<streamsize>::max(), '\n');
-          break;
-        }
-      }
-
-      switch (escolhamodo) {
-      case 1: {
-        cout << endl;
-        cout << "* Escolheu PvP *\n" << endl;
-}
-    ////// INICIO DO JOGO ////// 
-    initializeBoard();
-    currentPlayer = 'X';
-    int row, col;
-
-    while (true) {
-        printBoard();
-        cout << "Jogador " << currentPlayer << ", escolha a linha e a coluna (0-2): ";
-        cin >> row >> col;
-
-        if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
-            cout << "Jogada inválida, tente novamente." << endl;
-            continue;
-        }
-
-        board[row][col] = currentPlayer;
-
-        if (isWinner(currentPlayer)) {
-            printBoard();
-            cout << "Parabéns! Jogador " << currentPlayer << " venceu!" << endl;
-            break;
-        }
-
-        if (isDraw()) {
-            printBoard();
-            cout << "Empate!" << endl;
-            break;
-        }
-
-        switchPlayer();
-    }
-
 
     return 0;
-     
+}
