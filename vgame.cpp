@@ -149,7 +149,7 @@ int main() {
                     		
                     		switchPlayer();
                     	}
-                        break; // Adiciona um break aqui para sair do switch
+                        break;
                     }
                     case 2:
                     case 3:
@@ -159,7 +159,7 @@ int main() {
                         executando = false;
                         break;
                 }
-                break; // Adiciona um break aqui para sair do switch principal
+                break;
             }
             case 2:
           
