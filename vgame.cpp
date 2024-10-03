@@ -11,10 +11,10 @@
 
 using namespace std;
 
-char board[3][3]; // Tabuleiro 3x3
+char board[3][3];
 char currentPlayer;
 
-void initializeBoard() {
+void initBoard() {
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
             board[i][j] = ' ';
@@ -34,7 +34,6 @@ void printBoard() {
 }
 
 bool isWinner(char player) {
-    // Verifica linhas, colunas e diagonais
     for (int i = 0; i < 3; i++)
         if ((board[i][0] == player && board[i][1] == player && board[i][2] == player) ||
             (board[0][i] == player && board[1][i] == player && board[2][i] == player))
@@ -60,7 +59,6 @@ void switchPlayer() {
 }
 
 int main() {
-    ////// MENUS ////// 
     int escolhajogo;
     bool executando = true;
 
@@ -68,7 +66,7 @@ int main() {
         cout << "================" << endl;
         cout << "Escolha o jogo: " << endl;
         cout << "1. JOGO DA VELHA" << endl;
-        cout << "2. Jogo 2" << endl; // Você pode definir o que fazer para "Jogo 2"
+        cout << "2. Jogo 2" << endl;
         cout << "3. Sair" << endl;
         cout << "================" << endl;
 
@@ -95,8 +93,8 @@ int main() {
                 cout << "=======================" << endl;
                 cout << "Escolha o modo de jogo: " << endl;
                 cout << "1. PvP" << endl;
-                cout << "2. PvBot" << endl; // Este modo ainda não foi implementado
-                cout << "3. BotvBot" << endl; // Este modo ainda não foi implementado
+                cout << "2. PvBot" << endl;
+                cout << "3. BotvBot" << endl;
                 cout << "4. Sair" << endl;
                 cout << "=====================" << endl;
 
@@ -119,37 +117,38 @@ int main() {
                         cout << endl;
                         cout << "* Escolheu PvP *\n" << endl;
 
-                        ////// INICIO DO JOGO ////// 
-                        initializeBoard();
-                        currentPlayer = 'X';
-                        int row, col;
-
-                        while (true) {
-                            printBoard();
-                            cout << "Jogador " << currentPlayer << ", escolha a linha e a coluna (0-2): ";
-                            cin >> row >> col;
-
-                            if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
-                                cout << "Jogada inválida, tente novamente." << endl;
-                                continue;
-                            }
-
-                            board[row][col] = currentPlayer;
-
-                            if (isWinner(currentPlayer)) {
-                                printBoard();
-                                cout << "Parabéns! Jogador " << currentPlayer << " venceu!" << endl;
-                                break;
-                            }
-
-                            if (isDraw()) {
-                                printBoard();
-                                cout << "Empate!" << endl;
-                                break;
-                            }
-
-                            switchPlayer();
-                        }
+                        initBoard();
+                    	currentPlayer = 'X';
+                    	int row, col;
+                    	
+                    	while (true) {
+                    		printBoard();
+                    		cout << "\nJogador " << currentPlayer << ", escolha a linha e a coluna (0-2): ";
+                    		
+                    		if (!(cin >> row >> col) || row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
+                    			cout << "\nJogada inválida, tente novamente.\n" << endl;
+                    			cin.clear();
+                    			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    			continue;
+                    		}
+                    		
+                    		cout << endl;
+                    		board[row][col] = currentPlayer;
+                    		
+                    		if (isWinner(currentPlayer)) {
+                    			printBoard();
+                    			cout << "\nParabéns! Jogador " << currentPlayer << " venceu!" << endl;
+                    			break;
+                    		}
+                    		
+                    		if (isDraw()) {
+                    			printBoard();
+                    			cout << "Empate!" << endl;
+                    			break;
+                    		}
+                    		
+                    		switchPlayer();
+                    	}
                         break; // Adiciona um break aqui para sair do switch
                     }
                     case 2:
