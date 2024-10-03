@@ -1,0 +1,37 @@
+int main() {
+	
+	initializeBoard();
+	currentPlayer = 'X';
+	int row, col;
+	
+	while (true) {
+		printBoard();
+		cout << "\nJogador " << currentPlayer << ", escolha a linha e a coluna (0-2): ";
+		
+		if (!(cin >> row >> col) || row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ') {
+			cout << "\nJogada inválida, tente novamente.\n" << endl;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			continue;
+		}
+		
+		cout << endl;
+		board[row][col] = currentPlayer;
+		
+		if (isWinner(currentPlayer)) {
+			printBoard();
+			cout << "Parabéns! Jogador " << currentPlayer << " venceu!" << endl;
+			break;
+		}
+		
+		if (isDraw()) {
+			printBoard();
+			cout << "Empate!" << endl;
+			break;
+		}
+		
+		switchPlayer();
+	}
+	
+	return 0;
+}
